@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -14,7 +14,48 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Welcome to Secured page</h1>
+        <form name="fetch-customers" th:action="@{/customers}" th:formmethod="POST">
+            <button type="submit" class="btn btn-primary" >Customers</button>
+        </form>
     </div>
+
+    <div th:unless="${errors==null}">
+        <table class="table">
+            <thead>
+            <tr>
+                <td>Code</td>
+                <td>Error</td>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span th:text="${errors.statusCode}" /></td>
+                    <td><span th:text="${errors.body}" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div th:if="${errors==null}">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>FirstName</td>
+                <td>LastName</td>
+                <td>DLNumber</td>
+                <td>Zipcode</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="customer: ${customers}">
+                <td><span th:text="${customer.firstName}" /></td>
+                <td><span th:text="${customer.lastName}" /></td>
+                <td><span th:text="${customer.dlNumber}" /></td>
+                <td><span th:text="${customer.zipcode}" /></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
